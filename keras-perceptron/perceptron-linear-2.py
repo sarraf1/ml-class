@@ -16,6 +16,12 @@ config = run.config
 img_width = X_train.shape[1]
 img_height = X_train.shape[2]
 
+# normalize data
+X_train = X_train.astype('float32')
+X_train /= 255.
+X_test = X_test.astype('float32')
+X_test /= 255.
+
 # one hot encode outputs
 print("BEFORE")
 print(y_train)
@@ -34,7 +40,10 @@ num_classes = y_train.shape[1]
 # create model
 model=Sequential()
 model.add(Flatten(input_shape=(img_width,img_height)))
-model.add(Dense(num_classes, activation='softmax')) #when having categorization, using categorical cross entropy
+model.add(Dropout(0.5))
+model.add(Dense(1000, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(num_classes, activation='softmax')) #when having categorization, using categorical cross entropy, num_classes=num digits
 model.compile(loss='categorical_crossentropy', optimizer='adam',
                 metrics=['accuracy'])
 

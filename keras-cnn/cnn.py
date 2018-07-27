@@ -28,11 +28,16 @@ labels=range(10)
 # build model
 model = Sequential()
 model.add(Conv2D(32,
-    (config.first_layer_conv_width, config.first_layer_conv_height),
+    (config.first_layer_conv_width, config.first_layer_conv_height), #kernel passed in from config
     input_shape=(28, 28,1),
     activation='relu'))
+model.add(Conv2D(32,
+    (config.first_layer_conv_width, config.first_layer_conv_height), #kernel passed in from config
+    activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
+model.add(Dropout(0.5))
 model.add(Dense(config.dense_layer_size, activation='relu'))
 model.add(Dense(num_classes, activation='softmax'))
 
